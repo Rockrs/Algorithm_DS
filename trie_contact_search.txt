@@ -1,0 +1,72 @@
+#!/bin/python3
+
+import os
+import sys
+
+#
+# Complete the contacts function below.
+#
+class TrieNode:
+    def __init__(self):
+        self.count =0
+        self.child = {}
+
+class Trie:
+    root = TrieNode()
+
+    def add(self,s):
+        temp = Trie.root
+        for i in s:
+            if i in temp.child:
+                temp = temp.child[i]
+                temp.count +=1
+
+            elif i not in temp.child:
+                temp.child[i] = TrieNode()
+                temp = temp.child[i]
+                temp.count +=1
+    
+    def find(self,s):
+        print (s)
+        temp = Trie.root
+        try:
+            for i in range(len(s)-1):
+                temp = temp.child[s[i]]
+            
+            if s[-1] in temp.child.keys():
+                temp= temp.child[s[-1]]
+                return temp.count
+            else:
+                return 0
+        except:
+            return 0
+
+def contacts(queries):
+    obj = Trie()
+    t_list =[]
+    for query in queries:
+        a,b = query
+        if a=='add':
+            obj.add(b)
+        else:
+            t_list.append(obj.find(b))
+    
+    return t_list
+
+
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    queries_rows = int(input())
+
+    queries = []
+
+    for _ in range(queries_rows):
+        queries.append(input().rstrip().split())
+
+    result = contacts(queries)
+
+    fptr.write('\n'.join(map(str, result)))
+    fptr.write('\n')
+
+    fptr.close()
