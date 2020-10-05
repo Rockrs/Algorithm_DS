@@ -1,0 +1,19 @@
+class Solution(object):
+    def uniquePaths(self, m, n):
+        dp = [[ 0 for _ in range(n)] for _ in range(m)]
+        
+        def cal(i,j):
+            if i<0 or i==m or j<0 or j==n:
+                return 0
+            elif i==m-1 and j==n-1:
+                return 1
+            elif dp[i][j]!=0:
+                return dp[i][j]
+            else:
+                dp[i][j] = cal(i+1,j) + cal(i,j+1)
+                return dp[i][j]
+            
+            return dp[0][0]
+        
+        
+        return cal(0,0)
